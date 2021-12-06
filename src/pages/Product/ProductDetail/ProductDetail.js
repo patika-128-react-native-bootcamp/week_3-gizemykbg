@@ -23,9 +23,9 @@ export default function ProductDetail() {
           {product.isPopular && <Icon name="star" color="orange" size={25} />}
         </View>
         <ScrollView horizontal bounces={false}>
-          {product.ingredients.map((ing, ind) => {
+          {product.ingredients.map((ing, index) => {
             return (
-              <View style={styles.badge_container}>
+              <View key={index} style={styles.badge_container}>
                 <Text style={styles.badge_label}>{ing}</Text>
               </View>
             );
