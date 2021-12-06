@@ -6,11 +6,9 @@ import Button from '../../../components/Button';
 import styles from './TableUpdate.styles';
 
 const mapOrders = (order, i) => (
-  <View key={i} style={styles.order_container}>
+  <View key={`${order}/${i}`} style={styles.order_container}>
     <Text style={styles.order_name}>⏺ {order.name}</Text>
-    <Text key={i} style={styles.order_price}>
-      {order.price} TL
-    </Text>
+    <Text style={styles.order_price}>{order.price} TL</Text>
   </View>
 );
 
@@ -19,9 +17,12 @@ export default function TableUpdate() {
   const route = useRoute();
   const {table} = route.params;
 
-  const {price: total} = table.orders.reduce((p, c) => ({
-    price: p.price + c.price,
-  }));
+  const {price: total} = table.orders.reduce(
+    (p, c) => ({
+      price: p.price + c.price,
+    }),
+    {price: 0},
+  );
 
   function handleCloseTable() {
     navigation.navigate('TablesPage', {
@@ -33,7 +34,11 @@ export default function TableUpdate() {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.name_label}>{table.name}</Text>
-        {table.orders.map(mapOrders)}
+        {table.orders.length > 0 ? (
+          table.orders.map(mapOrders)
+        ) : (
+          <Text>Empty Table</Text>
+        )}
         <Text style={styles.total}>Total {total} TL</Text>
       </View>
       {table.isActive && (
