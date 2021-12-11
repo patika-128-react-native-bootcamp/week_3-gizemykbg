@@ -14,6 +14,7 @@ export default function Products() {
   return (
     <SafeAreaView>
       <FlatList
+        keyExtractor={item => item.p_id}
         data={mockData.products}
         renderItem={({item}) => (
           <ProductCard item={item} onSelect={() => navigate(item)} />
